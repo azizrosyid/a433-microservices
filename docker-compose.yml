@@ -1,0 +1,29 @@
+# version docker-compose.yml
+version: '3.7'
+
+# services in docker-compose.yml
+services:
+  # service item-app
+  item-app:
+    # set restart policy
+    restart: always
+    # get image from github registry
+    image: ghcr.io/azizrosyid/item-app:v1
+    # set port
+    ports:
+      # expose port 3000 to port 80
+      - 80:3000
+  # service item-db
+  item-db:
+    # set restart policy
+    restart: always
+    # get image mongo:3 from docker hub
+    image: mongo:3
+    # set volume
+    volumes:
+      # mount volume app-db to /data/db
+      - app-db:/data/db
+
+# volumes in docker-compose.yml
+volumes:
+  app-db:
