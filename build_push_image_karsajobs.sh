@@ -1,21 +1,8 @@
-orbs:
-  docker: circleci/docker@2.2.0
+# membuat image docker dengan tag github package registry
+docker build -t ghcr.io/azizrosyid/karsajobs:latest .
 
-version: 2.1
+# login ke github package registry
+echo $PASSWORD_GITHUB_PKG | docker login ghcr.io -u azizrosyid --password-stdin
 
-jobs:
-  build:
-    docker:
-      - image: alpine:3.15
-    steps:
-        - checkout
-        - run:
-            name: lint-dockerfile
-            command: |
-                docker run --rm -i hadolint/hadolint < Dockerfile
-
-workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      - build
+# push image ke github package registry
+docker push ghcr.io/azizrosyid/karsajobs:latest
