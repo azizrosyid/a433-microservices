@@ -1,0 +1,21 @@
+name: build-and-push
+on:
+  push:
+    branches:
+      - karsajobs-ui
+      
+env:
+  PASSWORD_GITHUB_PKG: ${{ secrets.GITHUB_TOKEN }}
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - uses: actions/checkout@v2
+      - name: lint-dockerfile
+        uses: hadolint/hadolint-action@master
+        with:
+          dockerfile: "Dockerfile"
+      - name: build-app-karsajobs
+        run: sh build_push_image_karsajobs-ui.sh
