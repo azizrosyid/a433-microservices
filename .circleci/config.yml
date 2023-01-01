@@ -9,7 +9,7 @@ jobs:
       - run:
           name: Lint Dockerfile
           command: |
-            apt-get update && apt-get install -y hadolint
+            wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
             hadolint Dockerfile
       - run:
           name: Test app
@@ -19,7 +19,6 @@ jobs:
           command: sh build_push_image_karsajobs.sh
 
 workflows:
-  version: 2.1
   build-and-push:
     jobs:
       - build
