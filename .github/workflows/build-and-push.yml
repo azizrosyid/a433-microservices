@@ -4,7 +4,7 @@ on:
     branches:
       - karsajobs
 env:
-  PASSWORD_GITHUB_PKG: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+  PASSWORD_GITHUB_PKG: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
