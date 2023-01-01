@@ -18,4 +18,4 @@ jobs:
         with:
           dockerfile: "Dockerfile"
       - name: build-app-karsajobs
-        run: sh build_push_image_karsajobs-ui.sh
+        run: sh build_push_image_karsajobs_ui.sh
