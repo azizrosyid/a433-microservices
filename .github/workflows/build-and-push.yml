@@ -9,6 +9,8 @@ env:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     steps:
       - uses: actions/checkout@v2
       - name: lint-dockerfile
@@ -21,11 +23,5 @@ jobs:
           go-version: 1.16
       - name: test-app
         run: go test -v -short --count=1 $(go list ./...)
-      - name: login-to-ghcr
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.personal_access_token }}
       - name: build-app-karsajobs
         run: sh build_push_image_karsajobs.sh
