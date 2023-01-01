@@ -18,10 +18,8 @@ jobs:
         - checkout
         - run:
             name: Test App
-            command: go test -v -short --count=1 $(go list ./... )
+            command: cd karsajobs && go test -v -short --count=1 $(go list ./... )
   build-app-karsajobs:
-    docker:
-        - image: circleci/golang:1.16
     steps:
         - checkout
         - run:
@@ -33,7 +31,8 @@ workflows:
         jobs:
         - lint-dockerfile
         - test-app
-        - build-app-karsajobs:
             requires:
                 - lint-dockerfile
+        - build-app-karsajobs:
+            requires:
                 - test-app
