@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - karsajobs
+      
 env:
   PASSWORD_GITHUB_PKG: ${{ secrets.GITHUB_TOKEN }}
 jobs:
