@@ -12,7 +12,6 @@ jobs:
             command: hadolint Dockerfile
   test-app:
     docker:
-    # golang
         - image: circleci/golang:1.16
     steps:
         - checkout
@@ -20,6 +19,8 @@ jobs:
             name: Test App
             command: cd karsajobs && go test -v -short --count=1 $(go list ./... )
   build-app-karsajobs:
+    docker:
+        - image: circleci/golang:1.16
     steps:
         - checkout
         - run:
@@ -30,9 +31,9 @@ workflows:
     build-test-deploy:
         jobs:
         - lint-dockerfile
-        - test-app:
+        - test-app
             requires:
-               - lint-dockerfile
+                - lint-dockerfile
         - build-app-karsajobs:
             requires:
                 - test-app
