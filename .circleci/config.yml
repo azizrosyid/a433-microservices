@@ -1,27 +1,41 @@
 version: 2.1
 
 jobs:
-  build:
+  lint-dockerfile:
     docker:
-      - image: circleci/golang:1.15
+        # hadolint
+      - image: hadolint/hadolint
     steps:
-      - run:
-          name: Test app
-          command: go test -v -short --count=1 $(go list ./...)
-      - run:
-          name: Build and push image
-          command: sh build_push_image_karsajobs.sh
-  lint:
+        - checkout
+        - run:
+            name: Lint Dockerfile
+            command: |
+                hadolint Dockerfile
+  test-app:
     docker:
-      - image: docker/hadolint
-    steps: 
-      - checkout
-      - run:
-          name: Lint Dockerfile
-          command: hadolint Dockerfile
+    # golang
+        - image: circleci/golang:1.16
+    steps:
+        - checkout
+        - run:
+            name: Test App
+            command: |
+                go test -v -short --count=1 $(go list ./... )
+  build-app-karsajobs:
+    docker:
+        - image: circleci/golang:1.16
+    steps:
+        - checkout
+        - run:
+            name: Build App Karsajobs
+            command: sh build_push_image_karsajobs.sh
 
 workflows:
-  build-and-push:
-    jobs:
-      - lint
-      - build
+    build-test-deploy:
+        jobs:
+        - lint-dockerfile
+        - test-app
+        - build-app-karsajobs:
+            requires:
+                - lint-dockerfile
+                - test-app
