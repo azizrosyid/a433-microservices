@@ -1,3 +1,12 @@
+# membuat image docker dengan tag github package registry
+docker build -t ghcr.io/azizrosyid/karsajobs:latest .
+
+# login ke github package registry
+echo $PASSWORD_GITHUB_PKG | docker login ghcr.io -u azizrosyid --password-stdin
+
+# push image ke github package registry
+docker push ghcr.io/azizrosyid/karsajobs:latest
+
 version: 2.1
 
 jobs:
@@ -11,6 +20,14 @@ jobs:
       - run:
           name: Build and push image
           command: sh build_push_image_karsajobs.sh
+  lint:
+    docker:
+      - image: docker/hadolint
+    steps: 
+      - checkout
+      - run:
+          name: Lint Dockerfile
+          command: hadolint Dockerfile
 
 workflows:
   lint:
