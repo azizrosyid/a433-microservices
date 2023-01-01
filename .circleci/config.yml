@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-     - image: docker:stable
+     - image: circleci/docker:18.09.0
     working_directory: ~/karsajobs
     steps:
         - checkout
