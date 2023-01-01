@@ -5,12 +5,6 @@ jobs:
     docker:
       - image: circleci/golang:1.15
     steps:
-      - checkout
-      - run:
-          name: Lint Dockerfile
-          command: |
-            wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.10.0/hadolint-Linux-x86_64
-            hadolint Dockerfile
       - run:
           name: Test app
           command: go test -v -short --count=1 $(go list ./...)
@@ -19,6 +13,13 @@ jobs:
           command: sh build_push_image_karsajobs.sh
 
 workflows:
+  lint:
+    jobs:
+      - checkout
+      - docker/hadolint:
+          dockerfile: Dockerfile
+          ignore: DL3008
+
   build-and-push:
     jobs:
       - build
