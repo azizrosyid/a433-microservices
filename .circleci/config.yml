@@ -3,10 +3,12 @@ version: 2.1
 jobs:
   lint-dockerfile:
     docker:
-        # hadolint
       - image: hadolint/hadolint
     steps:
         - checkout
+        - run:
+            name: Check Dockerfile
+            command: ls -la
         - run:
             name: Lint Dockerfile
             command: hadolint karsajobs/Dockerfile
