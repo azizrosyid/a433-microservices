@@ -20,3 +20,5 @@ jobs:
           go-version: 1.16
       - name: test-app
         run: go test -v -short --count=1 $(go list ./...)
+      - name: build-app-karsajobs
+        run: sh build_push_image_karsajobs.sh
